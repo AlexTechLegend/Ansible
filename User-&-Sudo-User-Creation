@@ -1,0 +1,20 @@
+---
+- name: Manage User Accounts
+  hosts: "*"
+  become: true
+  vars:
+    users:
+      - name: LocalAdmin
+        password: "!QAZ@WSX1qaz2wsx"
+        groups: sudo
+      - name: localUser
+        password: "!QAZ@WSX1qaz2wsx"
+        groups: users
+  tasks:
+    - name: Create User Accounts
+      user:
+        name: "{{ item.name }}"
+        password: "{{ item.password | password_hash('sha512') }}"
+        groups: "{{ item.groups }}"
+        state: present
+      with_items: "{{ users }}"
