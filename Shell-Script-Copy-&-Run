@@ -1,0 +1,12 @@
+---
+- name: Run shell script to remote servers
+  hosts: "*"
+  become: true
+  tasks:
+    - name: Copy shell script to remote servers
+      copy:
+        src: /etc/ansible/ans.scripts/test.sh
+        dest: /tmp/test.sh
+        mode: 'u=rwx,g=rx,o=rx'
+    - name: Run shell script on remote servers
+      shell: /tmp/test.sh
